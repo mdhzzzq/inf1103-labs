@@ -22,6 +22,13 @@ def calculate_tax(amount):
     return tax
 
 
+
+def generate_report(total_units, failed_attempts):
+    print("\n--- Final Report ---")
+    print("Total Deliveries Processed:", total_units)
+    print("Number of Failed/Rejected Entries:", failed_attempts)
+
+
 inventory = 0
 failed_attempts = 0
 deliveries_processed = 0
@@ -46,3 +53,7 @@ while True:
     print("Delivery added successfully.")
     print("Current inventory:", inventory)
     print("Tax for this delivery:", tax)
+
+
+
+generate_report(deliveries_processed, failed_attempts)
