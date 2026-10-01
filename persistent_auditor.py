@@ -12,6 +12,16 @@ def load_inventory():
         return 0, []
 
 
+def save_inventory(total, history):
+    data = {
+        "total": total,
+        "history": history
+    }
+
+    with open("inventory.txt", "w") as file:
+        json.dump(data, file, indent=4)
+
+
 def get_valid_input():
     while True:
         stock = input("Enter stock quantity (or type 'quit' to exit): ")
