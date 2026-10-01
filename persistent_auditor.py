@@ -62,6 +62,8 @@ while True:
 
     tax = calculate_tax(stock)
 
+    transaction_history.append(stock)
+
     deliveries_processed += 1
 
     print("Delivery added successfully.")
