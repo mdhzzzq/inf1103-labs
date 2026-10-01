@@ -2,7 +2,7 @@ def load_inventory():
     orders = []
 
     try:
-        with open("orders.txt", "r") as file:
+        with open("inventory.txt", "r") as file:
             for line in file:
                 line = line.strip()
 
@@ -22,7 +22,7 @@ def load_inventory():
 
 
 def save_inventory(orders):
-    with open("orders.txt", "w") as file:
+    with open("inventory.txt", "w") as file:
         for order in orders:
             file.write(f"{order[0]}, {order[1]}, {order[2]}\n")
 
@@ -71,4 +71,4 @@ print()
 # Save orders to file
 save_inventory(orders)
 
-print("Order successfully saved to orders.txt")
+print("Order successfully saved to inventory.txt")
