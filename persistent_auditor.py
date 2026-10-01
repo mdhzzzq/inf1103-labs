@@ -31,3 +31,43 @@ print()
 
 for order in orders:
     print(f"{order[0]}, {order[1]}, {order[2]}")
+
+print()
+
+
+# Get new order information
+product_name = input("Enter Product Name: ")
+quantity = int(input("Enter Quantity: "))
+
+
+# Generate new order ID
+if orders:
+    new_order_id = orders[-1][0] + 1
+else:
+    new_order_id = 1001
+
+
+# Create new order
+new_order = [new_order_id, product_name, quantity]
+
+
+# Add new order to history
+orders.append(new_order)
+
+
+# Display new order
+print()
+print("New Order Added:")
+print(f"{new_order[0]},{new_order[1]},{new_order[2]}")
+
+
+# Load existing orders
+orders = load_inventory()
+
+
+# Display current orders
+print("Current Orders:")
+print()
+
+for order in orders:
+    print(f"{order[0]}, {order[1]}, {order[2]}")
