@@ -1,84 +1,73 @@
-import json
+def load_orders():
+    orders = []
 
-
-def load_inventory():
     try:
-        with open("inventory.txt", "r") as file:
-            data = json.load(file)
+        with open("orders.txt", "r") as file:
+            for line in file:
+                line = line.strip()
 
-        return data["total"], data["history"]
+                if line:
+                    parts = line.split(",")
+
+                    order_id = int(parts[0].strip())
+                    product_name = parts[1].strip()
+                    quantity = int(parts[2].strip())
+
+                    orders.append([order_id, product_name, quantity])
 
     except FileNotFoundError:
-        return 0, []
+        return []
+
+    return orders
 
 
-def save_inventory(total, history):
-    data = {
-        "total": total,
-        "history": history
-    }
-
-    with open("inventory.txt", "w") as file:
-        json.dump(data, file, indent=4)
+def save_orders(orders):
+    with open("orders.txt", "w") as file:
+        for order in orders:
+            file.write(f"{order[0]}, {order[1]}, {order[2]}\n")
 
 
-def get_valid_input():
-    while True:
-        stock = input("Enter stock quantity (or type 'quit' to exit): ")
-
-        if stock.lower() == "quit":
-            return "quit", False
-
-        if not stock.isdigit():
-            print("Error: Please enter a positive integer.")
-            return None, True
-
-        return int(stock), False
+def get_product_name():
+    return input("Enter Product Name: ")
 
 
-def process_delivery(current_total, new_value):
-    new_total = current_total + new_value
-    return new_total
+def get_quantity():
+    return int(input("Enter Quantity: "))
 
 
-def calculate_tax(amount):
-    tax = amount * 0.10
-    return tax
+# Load existing orders
+orders = load_orders()
 
+# Display current orders
+print("Current Orders:")
+print()
 
-def generate_report(total_units, failed_attempts):
-    print("\n--- Final Report ---")
-    print("Total Deliveries Processed:", total_units)
-    print("Number of Failed/Rejected Entries:", failed_attempts)
+for order in orders:
+    print(f"{order[0]}, {order[1]}, {order[2]}")
 
+print()
 
-inventory, transaction_history = load_inventory()
+# Get new order information
+product_name = get_product_name()
+quantity = get_quantity()
 
-failed_attempts = 0
-deliveries_processed = 0
+# Generate new order ID
+if orders:
+    new_order_id = orders[-1][0] + 1
+else:
+    new_order_id = 1001
 
+# Create and add new order
+new_order = [new_order_id, product_name, quantity]
+orders.append(new_order)
 
-while True:
-    stock, failed = get_valid_input()
+# Display new order
+print()
+print("New Order Added:")
+print(f"{new_order[0]}, {new_order[1]}, {new_order[2]}")
+print()
 
-    if stock == "quit":
-        break
+# Save orders
+save_orders(orders)
 
-    if failed:
-        failed_attempts += 1
-        continue
-
-    inventory = process_delivery(inventory, stock)
-
-    tax = calculate_tax(stock)
-
-    transaction_history.append(stock)
-
-    deliveries_processed += 1
-
-    print("Delivery added successfully.")
-    print("Current inventory:", inventory)
-    print("Tax for this delivery:", tax)
-
-
-generate_report(deliveries_processed, failed_attempts)
+print("Order successfully saved to orders.txt")
