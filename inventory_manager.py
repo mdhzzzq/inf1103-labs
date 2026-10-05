@@ -16,6 +16,12 @@ def load_inventory():
 
 inventory = load_inventory()
 
+def save_inventory(inventory):
+    with open("inventory.json", "w") as file:
+        json.dump(inventory, file, indent=4)
+
+    print("Inventory saved successfully to inventory.json.")
+
 def display_all(inventory):
     print("Current Inventory")
     print("-" * 48)
@@ -89,3 +95,6 @@ def search_product(inventory):
             return
 
     print("Product not found.")
+
+add_product(inventory)
+save_inventory(inventory)
