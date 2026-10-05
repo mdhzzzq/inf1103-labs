@@ -14,8 +14,6 @@ def load_inventory():
         print("inventory.json not found. Starting with empty inventory.")
         return []
 
-inventory = load_inventory()
-
 def save_inventory(inventory):
     with open("inventory.json", "w") as file:
         json.dump(inventory, file, indent=4)
@@ -23,6 +21,7 @@ def save_inventory(inventory):
     print("Inventory saved successfully to inventory.json.")
 
 def display_all(inventory):
+    print()
     print("Current Inventory")
     print("-" * 48)
 
@@ -38,6 +37,7 @@ def display_all(inventory):
 
 
 def add_product(inventory):
+    print()
     print("Add New Product")
 
     product_id = input("Product ID: ")
@@ -58,6 +58,7 @@ def add_product(inventory):
 
 
 def update_stock(inventory):
+    print()
     print("Update Stock")
 
     product_id = input("Enter Product ID: ")
@@ -79,6 +80,7 @@ def update_stock(inventory):
 
 
 def search_product(inventory):
+    print()
     print("Search Product")
 
     product_id = input("Enter Product ID: ")
@@ -96,5 +98,56 @@ def search_product(inventory):
 
     print("Product not found.")
 
-add_product(inventory)
-save_inventory(inventory)
+def display_menu():
+    print("----------- MENU -----------")
+    print("1. Display All Products")
+    print("2. Add Product")
+    print("3. Update Stock")
+    print("4. Search Product")
+    print("5. Save Inventory")
+    print("6. Exit")
+    print("----------------------------")
+
+
+print("=" * 40)
+print("INVENTORY MANAGEMENT SYSTEM")
+print("=" * 40)
+print()
+inventory = load_inventory()
+print()
+
+while True:
+    display_menu()
+
+    option = input("Enter option: ")
+
+    if option == "1":
+        display_all(inventory)
+
+    elif option == "2":
+        add_product(inventory)
+
+    elif option == "3":
+        update_stock(inventory)
+
+    elif option == "4":
+        search_product(inventory)
+
+    elif option == "5":
+        print()
+        print("Saving inventory...")
+        save_inventory(inventory)
+
+    elif option == "6":
+        print("Saving inventory before exit...")
+
+        with open("inventory.json", "w") as file:
+            json.dump(inventory, file, indent=4)
+
+        print("Inventory saved successfully.")
+        print("Thank you for using Inventory Management System.")
+        print("Program terminated.")
+        break
+
+    else:
+        print("Invalid option.")
