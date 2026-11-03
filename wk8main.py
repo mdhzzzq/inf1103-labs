@@ -1,6 +1,8 @@
 import json
-from wk8product import Product
+from wk9physical_product import PhysicalProduct
+from wk9digital_product import DigitalProduct
 from wk8inventory import Inventory
+
 
 def load_inventory():
     inventory = Inventory()
@@ -10,18 +12,35 @@ def load_inventory():
             products = json.load(file)
 
         for item in products:
-            product = Product(
-                item["id"],
-                item["name"],
-                item["price"],
-                item["stock"]
-            )
+            if item["type"] == "physical":
+                product = PhysicalProduct(
+                    item["id"],
+                    item["name"],
+                    item["price"],
+                    item["stock"],
+                    item["weight"]
+                )
+
+            elif item["type"] == "digital":
+                product = DigitalProduct(
+                    item["id"],
+                    item["name"],
+                    item["price"],
+                    item["stock"],
+                    item["download_size"]
+                )
+
+            else:
+                print(f"Unknown product type: {item['type']}")
+                continue
+
             inventory.add_product(product)
 
     except FileNotFoundError:
         print("Inventory file not found. Starting with empty inventory.")
 
     return inventory
+
 
 def save_inventory(inventory):
     products = []
@@ -33,6 +52,14 @@ def save_inventory(inventory):
             "price": product.price,
             "stock": product.stock
         }
+
+        if isinstance(product, PhysicalProduct):
+            product_data["type"] = "physical"
+            product_data["weight"] = product.weight
+
+        elif isinstance(product, DigitalProduct):
+            product_data["type"] = "digital"
+            product_data["download_size"] = product.download_size
 
         products.append(product_data)
 
@@ -53,16 +80,24 @@ def display_menu():
     print("====================================")
 
 
-def add_product(inventory):
+def add_product(inventory): 
     print("\n--- Add New Product ---")
+    print("1. Physical Product")
+    print("2. Digital Product")
+
+    product_type = input("Choose product type (1-2): ")
+
+    if product_type not in ["1", "2"]:
+        print("Invalid product type.")
+        return
 
     while True:
         product_id = input("Enter Product ID: ").strip()
 
-        if inventory.search_product(product_id) is not None:
+        if product_id == "":
+            print("Product ID cannot be empty.")
+        elif inventory.search_product(product_id) is not None:
             print("This product ID already exists. Please try again.")
-        elif product_id == "":
-            print("Product ID cannot be empty. Please try again.")
         else:
             break
 
@@ -96,9 +131,39 @@ def add_product(inventory):
         except ValueError:
             print("Invalid stock. Please enter a whole number.")
 
-    product = Product(product_id, name, price, stock)
-    inventory.add_product(product)
+    if product_type == "1":
+        while True:
+            try:
+                weight = float(input("Enter Weight (kg): "))
 
+                if weight <= 0:
+                    print("Weight must be greater than zero.")
+                else:
+                    break
+
+            except ValueError:
+                print("Invalid weight. Please enter a number.")
+
+        product = PhysicalProduct(product_id, name, price, stock, weight)
+
+    else:
+        while True:
+            try:
+                download_size = float(input("Enter Download Size (MB): "))
+
+                if download_size <= 0:
+                    print("Download size must be greater than zero.")
+                else:
+                    break
+
+            except ValueError:
+                print("Invalid download size. Please enter a number.")
+
+        product = DigitalProduct(
+            product_id, name, price, stock, download_size
+        )
+
+    inventory.add_product(product)
     print("Product added successfully!")
 
 

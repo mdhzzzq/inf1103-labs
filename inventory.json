@@ -1,32 +1,42 @@
 [
     {
         "id": "P001",
-        "name": "Laptop",
-        "price": 1200.0,
-        "stock": 15
+        "name": "Guitar",
+        "price": 250.0,
+        "stock": 10,
+        "type": "physical",
+        "weight": 3.5
+    },
+    {
+        "id": "D001",
+        "name": "Photo Editing Software",
+        "price": 49.9,
+        "stock": 20,
+        "type": "digital",
+        "download_size": 500
     },
     {
         "id": "P002",
-        "name": "Mouse",
-        "price": 25.5,
-        "stock": 40
+        "name": "Playstation",
+        "price": 500.0,
+        "stock": 15,
+        "type": "physical",
+        "weight": 7.0
+    },
+    {
+        "id": "D002",
+        "name": "EAFC",
+        "price": 69.9,
+        "stock": 10,
+        "type": "digital",
+        "download_size": 2000.0
     },
     {
         "id": "P003",
-        "name": "Keyboard",
-        "price": 45.0,
-        "stock": 25
-    },
-    {
-        "id": "P004",
-        "name": "Monitor",
-        "price": 200.0,
-        "stock": 30
-    },
-    {
-        "id": "P005",
-        "name": "Headphones",
-        "price": 50.0,
-        "stock": 40
+        "name": "Mechanical Keyboard",
+        "price": 89.9,
+        "stock": 20,
+        "type": "physical",
+        "weight": 0.8
     }
 ]
